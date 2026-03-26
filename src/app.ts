@@ -17,8 +17,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello from Apollo Gears World!");
 });
 
-
-
 app.use(globalErrorHandler);
 
 export default app;
