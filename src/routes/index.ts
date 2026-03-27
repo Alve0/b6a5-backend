@@ -2,8 +2,12 @@ import { Router } from "express";
 import catchAsync from "../utils/catchAsync";
 import sendResponse from "../utils/sendResponse";
 import { prisma } from "../lib/prisma";
+import authRouter from "../modules/auth/auth.route";
 
 const router = Router();
+
+// Auth routes
+router.use("/auth", authRouter);
 
 router.get("/", (req, res) => {
   res.json({ message: "API router is working" });
@@ -20,13 +24,4 @@ router.get(
   }),
 );
 
-// Example user route using global prisma access
-router.get(
-  "/users",
-  catchAsync(async (_req, res) => {
-    const users = await prisma.user.findMany();
-    sendResponse(res, { statusCode: 200, status: "success", data: users });
-  }),
-);
-
-export default router; 
+export default router;
