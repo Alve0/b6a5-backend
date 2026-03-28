@@ -1,12 +1,8 @@
-import { Request } from "express";
-import { ROLE } from "../../generated/prisma/client";
-
-export interface JWTPayload {
-  id: string;
+interface IRegister {
+  name: string;
   email: string;
-  role: ROLE;
-}
-
-export interface AuthRequest extends Request {
-  user?: JWTPayload;
+  password: string;
+  image?: string;
+  callbackURL?: string;
+  rememberMe?: boolean;
 }

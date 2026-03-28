@@ -3,13 +3,15 @@ import cors from "cors";
 import router from "./routes";
 import globalErrorHandler from "./errors/globalErrorHandler";
 import notFound from "./middlewares/notfound";
+import { auth } from "./lib/auth";
+import { toNodeHandler } from "better-auth/node";
 
 const app: Application = express();
 
 // parsers
 app.use(express.json());
 app.use(cors());
-
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 // application routes
 app.use("/api/v1", router);
 

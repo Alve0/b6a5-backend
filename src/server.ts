@@ -1,6 +1,7 @@
 import app from "./app";
 import config from "./config";
 import type { Server } from "http";
+import { prisma } from "./lib/prisma";
 
 let server: Server | undefined;
 
@@ -37,6 +38,8 @@ process.on("uncaughtException", (error) => {
 
 async function main() {
   try {
+    await prisma.$connect();
+    console.log("connection successful");
     server = app.listen(config.port, () => {
       console.log(`Example app listening on port ${config.port}`);
     });

@@ -1,13 +1,12 @@
 import { Router } from "express";
 import catchAsync from "../utils/catchAsync";
 import sendResponse from "../utils/sendResponse";
-import { prisma } from "../lib/prisma";
-import authRouter from "../modules/auth/auth.route";
+import { Authrouter } from "../modules/auth/auth.route";
 
 const router = Router();
 
 // Auth routes
-router.use("/auth", authRouter);
+router.use("/auth", Authrouter);
 
 router.get("/", (req, res) => {
   res.json({ message: "API router is working" });

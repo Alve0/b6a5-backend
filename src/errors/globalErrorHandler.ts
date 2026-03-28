@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 
 import AppError from "./AppError";
 import { Prisma } from "../generated/prisma/client";
@@ -37,6 +38,16 @@ const globalErrorHandler = (
 ) => {
   let error = err;
 
+  if (err instanceof ZodError) {
+    const formattedErrors = err.issues.map((e) => ({
+      field: e.path.join("."),
+      message: e.message,
+    }));
+    const zodError = new AppError("Validation Error", 400);
+    (zodError as any).errors = formattedErrors;
+    error = zodError;
+  }
+
   if (
     err instanceof Prisma.PrismaClientKnownRequestError ||
     err instanceof Prisma.PrismaClientValidationError ||
@@ -58,6 +69,7 @@ const globalErrorHandler = (
   res.status(appError.statusCode).json({
     status: appError.status,
     message: appError.message,
+    errors: (error as any).errors || undefined,
     ...(appError.statusCode >= 500
       ? {
           error:
