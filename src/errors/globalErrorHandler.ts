@@ -59,7 +59,7 @@ const globalErrorHandler = (
 
   if (!(error instanceof AppError)) {
     error = new AppError(
-      (error as Error).message || "Internal Server Error",
+      String((error as any)?.message || "Internal Server Errord "),
       500,
     );
   }

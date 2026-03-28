@@ -6,3 +6,10 @@ interface IRegister {
   callbackURL?: string;
   rememberMe?: boolean;
 }
+
+interface ILogin {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+  callbackURL?: string;
+}
